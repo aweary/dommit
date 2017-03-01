@@ -2,9 +2,9 @@
 import type { DOMString } from "../core";
 
 import {
-  getContextAttribute,
-  setContextAttribute,
-  initializeContext
+  getContextPropertyValue,
+  setContextPropertyValue,
+  createContext
 } from "./context";
 
 export type EventInit = {
@@ -35,7 +35,7 @@ export default class Event {
         `Failed to construct '${this.constructor.name}': 1 argument required, but only 0 present.`
       );
     }
-    initializeContext(this, type, eventInitDict);
+    createContext(this, { type, eventInitDict });
     /**
      * @todo actually when this should and should not be trusted.
      * This is the only enumerable own property the event should have.
@@ -44,19 +44,19 @@ export default class Event {
   }
 
   get target() {
-    return getContextAttribute(this, "target");
+    return getContextPropertyValue(this, "target");
   }
 
   get currentTarget() {
-    return getContextAttribute(this, "currentTarget");
+    return getContextPropertyValue(this, "currentTarget");
   }
 
   get type() {
-    return getContextAttribute(this, "type");
+    return getContextPropertyValue(this, "type");
   }
 
   get eventPhase() {
-    return getContextAttribute(this, "eventPhase");
+    return getContextPropertyValue(this, "eventPhase");
   }
 
   /**
@@ -65,31 +65,31 @@ export default class Event {
   get cancelBubble() {
     // TODO calling stopPropagation() should not set the [instance].cancelBubble
     // property to true implicitly. Track this separately.
-    return getContextAttribute(this, "propagationStopped");
+    return getContextPropertyValue(this, "propagationStopped");
   }
 
   set cancelBubble(value) {
-    setContextAttribute(this, "propagationStopped", Boolean(value));
+    setContextPropertyValue(this, "propagationStopped", Boolean(value));
   }
 
   get bubbles() {
-    return getContextAttribute(this, "bubbles");
+    return getContextPropertyValue(this, "bubbles");
   }
 
   get cancelable() {
-    return getContextAttribute(this, "cancelable");
+    return getContextPropertyValue(this, "cancelable");
   }
 
   get defaultPrevented() {
-    return getContextAttribute(this, "canceled");
+    return getContextPropertyValue(this, "canceled");
   }
 
   get composed() {
-    return getContextAttribute(this, "composed");
+    return getContextPropertyValue(this, "composed");
   }
 
   get timeStamp() {
-    return getContextAttribute(this, "timestamp");
+    return getContextPropertyValue(this, "timestamp");
   }
 
   composedPath() {
@@ -98,12 +98,12 @@ export default class Event {
   }
 
   stopPropagation() {
-    setContextAttribute(this, "propagationStopped", true);
+    setContextPropertyValue(this, "propagationStopped", true);
   }
 
   stopImmediatePropagation() {
-    setContextAttribute(this, "propagationStopped", true);
-    setContextAttribute(this, "immediatePropagationStopped", true);
+    setContextPropertyValue(this, "propagationStopped", true);
+    setContextPropertyValue(this, "immediatePropagationStopped", true);
   }
 
   /**
@@ -114,10 +114,10 @@ export default class Event {
    */
   preventDefault() {
     const cancelable = this.cancelable;
-    const inPassiveListener = getContextAttribute(this, "inPassiveListener");
+    const inPassiveListener = getContextPropertyValue(this, "inPassiveListener");
     // @TODO is !inPassiveListener enough?
     if (cancelable && !inPassiveListener) {
-      setContextAttribute(this, "canceled", true);
+      setContextPropertyValue(this, "canceled", true);
     }
   }
 }

@@ -1,6 +1,6 @@
 // @flow
 import type {EventInit} from './Event';
-import {getContextAttribute, setContextAttribute} from './context';
+import {getContextPropertyValue, setContextPropertyValue} from './context';
 import Event from "./Event";
 
 export type CustomEventInit =
@@ -20,13 +20,13 @@ export default class CustomEvent extends Event {
   }
 
   get detail() {
-    return getContextAttribute(this, "detail");
+    return getContextPropertyValue(this, "detail");
   }
 
   initCustomEvent(type, bubbles, cancelable, detail) {
-    setContextAttribute(this, "type", type);
-    setContextAttribute(this, "bubbles", bubbles);
-    setContextAttribute(this, "cancelable", cancelable);
-    setContextAttribute(this, "detail", detail);
+    setContextPropertyValue(this, "type", type);
+    setContextPropertyValue(this, "bubbles", bubbles);
+    setContextPropertyValue(this, "cancelable", cancelable);
+    setContextPropertyValue(this, "detail", detail);
   }
 }

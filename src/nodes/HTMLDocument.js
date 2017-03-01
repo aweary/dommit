@@ -3,7 +3,7 @@ import url from "url";
 import { DOCUMENT_NODE } from "./Node";
 import Document from "./Document";
 import DocumentType from "./DocumentType";
-import { initializeContext } from "./context";
+import { createContext } from "./context";
 import { internalBrowsingContextState } from "../internal";
 import { inherits } from "../utils";
 
@@ -59,7 +59,7 @@ class HTMLDocument {
      * @todo store document initialization state in internalBrowsingContextState
      */
     const initialDocumentState = arguments[0];
-    initializeContext(this, parseInitialDocumentState(initialDocumentState));
+    createContext(this, parseInitialDocumentState(initialDocumentState));
     internalBrowsingContextState.documentConstructed = true;
   }
 }

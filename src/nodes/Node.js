@@ -7,8 +7,8 @@ import {
   InternalDOMMITError
 } from "../internal";
 import {
-  getContextAttribute,
-  setContextAttribute
+  getContextPropertyValue,
+  setContextPropertyValue
 } from "./context";
 import {
   inherits
@@ -179,7 +179,7 @@ inherits(Node, EventTarget, {
     enumerable: true,
     configurable: true,
     get() {
-      return getContextAttribute(this, "nodeType");
+      return getContextPropertyValue(this, "nodeType");
     },
   },
   /**
@@ -191,7 +191,7 @@ inherits(Node, EventTarget, {
     enumerable: true,
     configurable: true,
     get() {
-      const nodeType = getContextAttribute(this, "nodeType");
+      const nodeType = getContextPropertyValue(this, "nodeType");
       switch (nodeType) {
         case ELEMENT_NODE:
           return this.tagName;
@@ -249,7 +249,7 @@ inherits(Node, EventTarget, {
     enumerable: true,
     configurable: true,
     get() {
-      return getContextAttribute(this, "isConnected");
+      return getContextPropertyValue(this, "isConnected");
     },
   },
   /**
@@ -265,7 +265,7 @@ inherits(Node, EventTarget, {
       if (this.nodeType === DOCUMENT_NODE) {
         return null;
       }
-      return getContextAttribute(this, "ownerDocument");
+      return getContextPropertyValue(this, "ownerDocument");
     },
   },
   /**
@@ -296,7 +296,7 @@ inherits(Node, EventTarget, {
     enumerable: true,
     configurable: true,
     get() {
-      return getContextAttribute(this, "parentNode");
+      return getContextPropertyValue(this, "parentNode");
     },
   },
   /**
@@ -308,7 +308,7 @@ inherits(Node, EventTarget, {
     enumerable: true,
     configurable: true,
     get() {
-      return getContextAttribute(this, "parentElement");
+      return getContextPropertyValue(this, "parentElement");
     },
   },
   /**
@@ -322,7 +322,7 @@ inherits(Node, EventTarget, {
     writable: true,
     value: function hasChildNodes() {
       // @todo make sure `children` is always a NodeList
-      return getContextAttribute(this, "children").length !== 0;
+      return getContextPropertyValue(this, "children").length !== 0;
     },
   },
   /**
@@ -335,35 +335,35 @@ inherits(Node, EventTarget, {
     configurable: true,
     get() {
       // @todo make sure this returns a NodeList instance
-      return getContextAttribute(this, "children");
+      return getContextPropertyValue(this, "children");
     },
   },
   firstChild: {
     enumerable: true,
     configurable: true,
     get() {
-      return getContextAttribute(this, "firstChild");
+      return getContextPropertyValue(this, "firstChild");
     },
   },
   lastChild: {
     enumerable: true,
     configurable: true,
     get() {
-      return getContextAttribute(this, "lastChild");
+      return getContextPropertyValue(this, "lastChild");
     },
   },
   previousSibling: {
     enumerable: true,
     configurable: true,
     get() {
-      return getContextAttribute(this, "previousSibling");
+      return getContextPropertyValue(this, "previousSibling");
     },
   },
   nextSibling: {
     enumerable: true,
     configurable: true,
     get() {
-      return getContextAttribute(this, "nextSibling");
+      return getContextPropertyValue(this, "nextSibling");
     },
   },
   /**
@@ -400,7 +400,7 @@ inherits(Node, EventTarget, {
       }
       switch (this.nodeType) {
         case ATTRIBUTE_NODE:
-          setContextAttribute(this, "value", value);
+          setContextPropertyValue(this, "value", value);
           return value;
           /**
            * Updating the nodeValue for these nodes should follow
@@ -412,8 +412,8 @@ inherits(Node, EventTarget, {
         case COMMENT_NODE:
         case PROCESSING_INSTRUCTION_NODE:
         case COMMENT_NODE:
-          setContextAttribute(this, "data", value);
-          setContextAttribute(this, "length", value.length);
+          setContextPropertyValue(this, "data", value);
+          setContextPropertyValue(this, "length", value.length);
           return value;
         default:
           // Do nothing but return the value for all other nodes.
@@ -462,13 +462,13 @@ inherits(Node, EventTarget, {
             `Setting {DOCUMENT_FRAGMENT_NODE|ELEMENT_NODE}.textContent is not yet implemented.`
           );
         case ATTRIBUTE_NODE:
-          setContextAttribute(this, "value", stringifiedValue);
+          setContextPropertyValue(this, "value", stringifiedValue);
           return value;
         case TEXT_NODE:
         case PROCESSING_INSTRUCTION_NODE:
         case COMMENT_NODE:
-          setContextAttribute(this, "data", stringifiedValue);
-          setContextAttribute(this, "length", stringifiedValue.length);
+          setContextPropertyValue(this, "data", stringifiedValue);
+          setContextPropertyValue(this, "length", stringifiedValue.length);
           return value;
         default:
           return value;

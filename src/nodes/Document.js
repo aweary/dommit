@@ -2,9 +2,9 @@
 import Node from "./Node";
 import {
   NodeInstanceContext,
-  initializeContext,
-  getContextAttribute,
-  setContextAttribute
+  createContext,
+  getContextPropertyValue,
+  setContextPropertyValue
 } from "./context";
 import { internalBrowsingContextState } from "../internal";
 import { inherits } from "../utils";
@@ -18,19 +18,19 @@ Document.prototype = Object.create(Node.prototype, {
   // document.documentURI
   URL: {
     get() {
-      return getContextAttribute(this, "URL");
+      return getContextPropertyValue(this, "URL");
     }
   },
 
   documentURI: {
     get() {
-      return getContextAttribute(this, "URL");
+      return getContextPropertyValue(this, "URL");
     }
   },
 
   origin: {
     get() {
-      return getContextAttribute(this, "origin");
+      return getContextPropertyValue(this, "origin");
     }
   },
   /**
@@ -39,37 +39,37 @@ Document.prototype = Object.create(Node.prototype, {
    */
   compatMode: {
     get() {
-      return getContextAttribute(this, "compatMode");
+      return getContextPropertyValue(this, "compatMode");
     }
   },
 
   characterSet: {
     get() {
-      return getContextAttribute(this, "encoding");
+      return getContextPropertyValue(this, "encoding");
     }
   },
 
   charset: {
     get() {
-      return getContextAttribute(this, "encoding");
+      return getContextPropertyValue(this, "encoding");
     }
   },
 
   inputEncoding: {
     get() {
-      return getContextAttribute(this, "encoding");
+      return getContextPropertyValue(this, "encoding");
     }
   },
 
   contentType: {
     get() {
-      return getContextAttribute(this, "contentType");
+      return getContextPropertyValue(this, "contentType");
     }
   },
 
   doctype: {
     get() {
-      return getContextAttribute(this, "doctype");
+      return getContextPropertyValue(this, "doctype");
     }
   }
 });

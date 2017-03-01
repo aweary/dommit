@@ -1,10 +1,9 @@
 // @flow
 import Node, { DOCUMENT_TYPE_NODE } from "./Node";
 import {
-  NodeInstanceContext,
-  initializeContext,
-  getContextAttribute,
-  setContextAttribute
+  createContext,
+  getContextPropertyValue,
+  setContextPropertyValue
 } from "./context";
 import { internalBrowsingContextState } from "../internal";
 import { inherits } from "../utils";
@@ -14,7 +13,7 @@ function DocumentType() {
     throw new TypeError("Illegal constructor");
   }
   const initialDocumentTypeState = arguments[0];
-  initializeContext(
+  createContext(
     this,
     Object.assign({}, initialDocumentTypeState, {
       // nodeType cannot be overwritten or configured.
@@ -26,17 +25,17 @@ function DocumentType() {
 inherits(DocumentType, Node, {
   name: {
     get() {
-      return getContextAttribute(this, "name");
+      return getContextPropertyValue(this, "name");
     }
   },
   publicId: {
     get() {
-      return getContextAttribute(this, "publicId");
+      return getContextPropertyValue(this, "publicId");
     }
   },
   systemId: {
     get() {
-      return getContextAttribute(this, "systemId");
+      return getContextPropertyValue(this, "systemId");
     }
   }
 });
